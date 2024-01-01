@@ -1,0 +1,11 @@
+g++ -mavx2 -o salsa SalsaProject/BobHash.cpp SalsaProject/CMSTests.cpp SalsaProject/CMS.cpp SalsaProject/CountMinAEE.cpp  SalsaProject/SalsaCMSBaseline.cpp  SalsaProject/main.cpp
+
+g++ -march=haswell -o cp CounterPoolsTopK.cpp tests.cpp CounterPoolsSim.cpp  main.cpp
+
+g++ -mavx2 -o salsa SalsaProject/BobHash.cpp SalsaProject/SalsaCMSBaseline.cpp SalsaProject/CMSTests.cpp SalsaProject/CMS.cpp SalsaProject/CountMinAEE.cpp  SalsaProject/PyramidSketch/PyramidTests.cpp  SalsaProject/main.cpp
+
+
+
+https://github.com/shayvar/Salsa/tree/master/Salsa/ABC
+
+salsa and basliene are the same with high threshold
