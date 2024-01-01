@@ -1,0 +1,132 @@
+N	98000000	Width	233017	Height	4
+	Threshold	0.0001	RelError	6.44203e-05
+	Threshold	0.000178	RelError	3.96863e-05
+	Threshold	0.000316	RelError	2.04884e-05
+	Threshold	0.000562	RelError	1.48464e-05
+	Threshold	0.001	RelError	6.68418e-06
+	Threshold	0.00178	RelError	4.43078e-06
+	Threshold	0.00316	RelError	1.47757e-06
+	Threshold	0.00562	RelError	1.02521e-06
+	Threshold	0.01	RelError	7.78386e-07
+
+N	98000000	Width	233017	Height	4
+	Threshold	0.0001	RelError	6.44203e-05
+	Threshold	0.000178	RelError	3.96863e-05
+	Threshold	0.000316	RelError	2.04884e-05
+	Threshold	0.000562	RelError	1.48464e-05
+	Threshold	0.001	RelError	6.68418e-06
+	Threshold	0.00178	RelError	4.43078e-06
+	Threshold	0.00316	RelError	1.47757e-06
+	Threshold	0.00562	RelError	1.02521e-06
+	Threshold	0.01	RelError	7.78386e-07
+
+N	98000000	Width	233017	Height	4
+	Threshold	0.0001	RelError	6.44203e-05
+	Threshold	0.000178	RelError	3.96863e-05
+	Threshold	0.000316	RelError	2.04884e-05
+	Threshold	0.000562	RelError	1.48464e-05
+	Threshold	0.001	RelError	6.68418e-06
+	Threshold	0.00178	RelError	4.43078e-06
+	Threshold	0.00316	RelError	1.47757e-06
+	Threshold	0.00562	RelError	1.02521e-06
+	Threshold	0.01	RelError	7.78386e-07
+
+N	98000000	Width	233017	Height	4
+	Threshold	0.0001	RelError	6.44203e-05
+	Threshold	0.000178	RelError	3.96863e-05
+	Threshold	0.000316	RelError	2.04884e-05
+	Threshold	0.000562	RelError	1.48464e-05
+	Threshold	0.001	RelError	6.68418e-06
+	Threshold	0.00178	RelError	4.43078e-06
+	Threshold	0.00316	RelError	1.47757e-06
+	Threshold	0.00562	RelError	1.02521e-06
+	Threshold	0.01	RelError	7.78386e-07
+
+N	98000000	Width	233017	Height	4
+	Threshold	0.0001	RelError	6.44203e-05
+	Threshold	0.000178	RelError	3.96863e-05
+	Threshold	0.000316	RelError	2.04884e-05
+	Threshold	0.000562	RelError	1.48464e-05
+	Threshold	0.001	RelError	6.68418e-06
+	Threshold	0.00178	RelError	4.43078e-06
+	Threshold	0.00316	RelError	1.47757e-06
+	Threshold	0.00562	RelError	1.02521e-06
+	Threshold	0.01	RelError	7.78386e-07
+
+N	98000000	Width	233017	Height	4
+	Threshold	0.0001	RelError	6.44203e-05
+	Threshold	0.000178	RelError	3.96863e-05
+	Threshold	0.000316	RelError	2.04884e-05
+	Threshold	0.000562	RelError	1.48464e-05
+	Threshold	0.001	RelError	6.68418e-06
+	Threshold	0.00178	RelError	4.43078e-06
+	Threshold	0.00316	RelError	1.47757e-06
+	Threshold	0.00562	RelError	1.02521e-06
+	Threshold	0.01	RelError	7.78386e-07
+
+N	98000000	Width	233017	Height	4
+	Threshold	0.0001	RelError	6.44203e-05
+	Threshold	0.000178	RelError	3.96863e-05
+	Threshold	0.000316	RelError	2.04884e-05
+	Threshold	0.000562	RelError	1.48464e-05
+	Threshold	0.001	RelError	6.68418e-06
+	Threshold	0.00178	RelError	4.43078e-06
+	Threshold	0.00316	RelError	1.47757e-06
+	Threshold	0.00562	RelError	1.02521e-06
+	Threshold	0.01	RelError	7.78386e-07
+
+N	98000000	Width	233017	Height	4
+	Threshold	0.0001	RelError	6.44203e-05
+	Threshold	0.000178	RelError	3.96863e-05
+	Threshold	0.000316	RelError	2.04884e-05
+	Threshold	0.000562	RelError	1.48464e-05
+	Threshold	0.001	RelError	6.68418e-06
+	Threshold	0.00178	RelError	4.43078e-06
+	Threshold	0.00316	RelError	1.47757e-06
+	Threshold	0.00562	RelError	1.02521e-06
+	Threshold	0.01	RelError	7.78386e-07
+
+N	98000000	Width	233017	Height	4
+	Threshold	0.0001	RelError	6.44203e-05
+	Threshold	0.000178	RelError	3.96863e-05
+	Threshold	0.000316	RelError	2.04884e-05
+	Threshold	0.000562	RelError	1.48464e-05
+	Threshold	0.001	RelError	6.68418e-06
+	Threshold	0.00178	RelError	4.43078e-06
+	Threshold	0.00316	RelError	1.47757e-06
+	Threshold	0.00562	RelError	1.02521e-06
+	Threshold	0.01	RelError	7.78386e-07
+
+N	98000000	Width	233017	Height	4
+	Threshold	0.0001	RelError	6.44203e-05
+	Threshold	0.000178	RelError	3.96863e-05
+	Threshold	0.000316	RelError	2.04884e-05
+	Threshold	0.000562	RelError	1.48464e-05
+	Threshold	0.001	RelError	6.68418e-06
+	Threshold	0.00178	RelError	4.43078e-06
+	Threshold	0.00316	RelError	1.47757e-06
+	Threshold	0.00562	RelError	1.02521e-06
+	Threshold	0.01	RelError	7.78386e-07
+
+N	98000000	Width	233017	Height	4
+	Threshold	0.0001	RelError	6.44203e-05
+	Threshold	0.000178	RelError	3.96863e-05
+	Threshold	0.000316	RelError	2.04884e-05
+	Threshold	0.000562	RelError	1.48464e-05
+	Threshold	0.001	RelError	6.68418e-06
+	Threshold	0.00178	RelError	4.43078e-06
+	Threshold	0.00316	RelError	1.47757e-06
+	Threshold	0.00562	RelError	1.02521e-06
+	Threshold	0.01	RelError	7.78386e-07
+
+N	98000000	Width	233017	Height	4
+	Threshold	0.0001	RelError	6.44203e-05
+	Threshold	0.000178	RelError	3.96863e-05
+	Threshold	0.000316	RelError	2.04884e-05
+	Threshold	0.000562	RelError	1.48464e-05
+	Threshold	0.001	RelError	6.68418e-06
+	Threshold	0.00178	RelError	4.43078e-06
+	Threshold	0.00316	RelError	1.47757e-06
+	Threshold	0.00562	RelError	1.02521e-06
+	Threshold	0.01	RelError	7.78386e-07
+

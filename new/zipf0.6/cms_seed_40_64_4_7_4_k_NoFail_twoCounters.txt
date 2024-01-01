@@ -1,0 +1,24 @@
+N	98000000	Width	233017	Height	4
+OnAraival	1.35089e-06
+N	98000000	Width	233017	Height	4
+OnAraival	1.35089e-06
+N	98000000	Width	233017	Height	4
+OnAraival	1.35089e-06
+N	98000000	Width	233017	Height	4
+OnAraival	1.35089e-06
+N	98000000	Width	233017	Height	4
+OnAraival	1.35089e-06
+N	98000000	Width	233017	Height	4
+OnAraival	1.35089e-06
+N	98000000	Width	233017	Height	4
+OnAraival	1.35089e-06
+N	98000000	Width	233017	Height	4
+OnAraival	1.35089e-06
+N	98000000	Width	233017	Height	4
+OnAraival	1.35089e-06
+N	98000000	Width	233017	Height	4
+OnAraival	1.35089e-06
+N	98000000	Width	233017	Height	4
+OnAraival	1.35089e-06
+N	98000000	Width	233017	Height	4
+OnAraival	1.35089e-06
