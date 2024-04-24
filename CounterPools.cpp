@@ -379,6 +379,12 @@ void CounterPools_64_4_0_1::incrementCus(const char * str)
 			minValIndexes[arrayIndex] = index;
 			minValrows[arrayIndex] = row;
 		}
+		else if(value == minVal){
+			arrayIndex++;
+			minValIndexes[arrayIndex] = index;
+			minValrows[arrayIndex] = row;
+
+		}
 	}
 
 
