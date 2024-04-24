@@ -372,9 +372,16 @@ void CounterPools_64_4_0_1::incrementCus(const char * str)
 
 		
 		uint64_t value = pool >> counterBitOffset;
-		int counterBitSize = offsets[poolCounterIndex + 1] - counterBitOffset;
-		uint64_t mask = (((uint64_t)1 << (counterBitSize)) - 1);
-		value &= mask;
+		uint64_t mask;
+		int counterBitSize;
+
+		if (poolCounterIndex < 3)
+		{
+			counterBitSize = offsets[poolCounterIndex + 1] - counterBitOffset;
+			mask = (((uint64_t)1 << (counterBitSize)) - 1);
+			value &= mask;
+		}
+
 
 		if(value <= minVal){
 			minVal = value;
