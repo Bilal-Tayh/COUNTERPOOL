@@ -364,7 +364,6 @@ void CounterPools_64_4_0_1::incrementCus(const char * str)
 		uint64_t &pool = m_pools[row][pool_index];
 
 		uint8_t* offsets = (uint8_t*)(m_lookup + pool_encoding);
-		uint64_t k = 4;
 
 		int poolCounterIndex = index & 0b11;
 		int counterBitOffset = offsets[poolCounterIndex];
@@ -374,17 +373,11 @@ void CounterPools_64_4_0_1::incrementCus(const char * str)
 		
 		uint64_t value = pool >> counterBitOffset;
 
-		if(value < minVal){
+		if(value <= minVal){
 			minVal = value;
 			arrayIndex=0;
 			minValIndexes[arrayIndex] = index;
 			minValrows[arrayIndex] = row;
-		}
-		else if(value == minVal){
-			arrayIndex++;
-			minValIndexes[arrayIndex] = index;
-			minValrows[arrayIndex] = row;
-
 		}
 	}
 
