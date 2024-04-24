@@ -320,7 +320,7 @@ int main(int argc, char* argv[])
 		/* error */
 
 		// CMS baseline (32-bit counters)
-		//test_cms_error_on_arrival_pools_HH(N, RowCounterNum, RowsNum, Seed, data, pool_bit_size,  counters_per_pool,  initial_counter_size,  counter_bit_increase,k);
+		test_cms_error_on_arrival_pools_cus_HH(N, RowCounterNum, RowsNum, Seed, data, pool_bit_size,  counters_per_pool,  initial_counter_size,  counter_bit_increase,k);
 		//test_cms_error_on_arrival_64_4_0_1(N, RowCounterNum, RowsNum, Seed, data);
 		//test_cms_error_on_arrival_pools_HH_NoFail1(N, RowCounterNum, RowsNum, Seed, data, pool_bit_size,  counters_per_pool,  initial_counter_size,  counter_bit_increase,k);
 		//test_cms_error_on_arrival_pools_HH_NoFail3(N, RowCounterNum, RowsNum, Seed, data, pool_bit_size,  counters_per_pool,  initial_counter_size,  counter_bit_increase,k);
@@ -337,7 +337,7 @@ int main(int argc, char* argv[])
 
 	
 	// 	// CP
-	 	test_cms_speed_64_4_0_1(N, RowCounterNum, RowsNum, Seed, data);
+	 	//test_cms_speed_64_4_0_1(N, RowCounterNum, RowsNum, Seed, data);
 
 	// 	// Salsa max (start with 8-bit counters)
 	 	//test_maximum_salsa_baseline_cms_speed(N, RowCounterNum, RowsNum, Seed, data);

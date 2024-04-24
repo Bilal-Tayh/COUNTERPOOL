@@ -248,11 +248,18 @@ int main(int argc, char* argv[])
 	// // 	// CMS baseline (32-bit counters)
 	// test_baseline_cms_speed(N, RowCounterNum, RowsNum, Seed, data);
 	// // 	// CMS salsa baseline
-	 test_salsa_baseline_cms_speed(N, RowCounterNum, RowsNum, Seed, data);
+	//test_salsa_baseline_cms_speed(N, RowCounterNum, RowsNum, Seed, data);
 	// // 	// CMS salsa pyramid
-	// test_pyramid_cms_speed(N, RowCounterNum, RowsNum, Seed, data);
-
-	test_abc_cms_speed(N, RowCounterNum, RowsNum, Seed, data);
+	//test_pyramid_cms_speed(N, RowCounterNum, RowsNum, Seed, data);
+	test_baseline_cus_error_on_arrival(N, RowCounterNum, RowsNum, Seed, data);
+	test_maximum_salsa_baseline_cus_error_on_arrival(N, RowCounterNum, RowsNum, Seed, data);
+	test_baseline_cus_speed(N, RowCounterNum, RowsNum, Seed, data);
+	test_maximum_salsa_baseline_cus_speed(N, RowCounterNum, RowsNum, Seed, data);
+	
+	
+	
+	
+	//test_abc_cms_speed(N, RowCounterNum, RowsNum, Seed, data);
 
 	// 	// CMS baseline (32-bit counters)
 	// 	test_baseline_cms_speed(N, RowCounterNum, RowsNum, Seed, data);

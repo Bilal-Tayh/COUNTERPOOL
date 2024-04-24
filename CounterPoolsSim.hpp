@@ -86,8 +86,11 @@ public:
 	void increment2(const char * str);
 	uint32_t query2(const char * str);
 	void increment3(const char * str);
+	void increment_cus(const char * str);
+
 	uint32_t query3(const char * str);
 	float percent_of_crushed_pools();
+	void countersPerPrint();
 
 
 	//############### cuckoo ################

@@ -319,6 +319,181 @@ void CounterPools_64_4_0_1::increment(const char * str)
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void CounterPools_64_4_0_1::incrementCus(const char * str)
+{
+
+	xxh::hash128_t hashes = xxh::xxhash3<128>(str, FT_SIZE, m_seed);
+	uint64_t minVal = std::numeric_limits<uint64_t>::max();
+
+	uint32_t minValIndexes[m_height] = {0};
+	int minValrows[m_height] = {0};
+	int arrayIndex=-1;
+
+
+
+	for (int row = 0; row < m_height; ++row) {
+		uint32_t index;
+		if (row < m_height_plus_1_over_2)
+		{
+			index = hashes.low64 & m_width_mask;
+			hashes.low64 >>= m_log_width;
+		}
+		else
+		{
+			index = hashes.high64 & m_width_mask;
+			hashes.high64 >>= m_log_width;
+		}
+		
+		uint32_t pool_index = index >> 2;
+
+		uint16_t &pool_encoding = m_encodings[row][pool_index];
+		uint64_t &pool = m_pools[row][pool_index];
+
+		uint8_t* offsets = (uint8_t*)(m_lookup + pool_encoding);
+		uint64_t k = 4;
+
+		int poolCounterIndex = index & 0b11;
+		int counterBitOffset = offsets[poolCounterIndex];
+
+		
+
+		
+		uint64_t value = pool >> counterBitOffset;
+
+		if(value < minVal){
+			minVal = value;
+			arrayIndex=0;
+			minValIndexes[arrayIndex] = index;
+			minValrows[arrayIndex] = row;
+		}
+		else if(value == minVal){
+			arrayIndex++;
+			minValIndexes[arrayIndex] = index;
+			minValrows[arrayIndex] = row;
+
+		}
+	}
+
+
+
+
+
+
+
+
+	for (int i = 0; i <= arrayIndex; ++i) {
+
+		uint32_t index = minValIndexes[i];
+		int row = minValrows[i];
+
+		uint32_t pool_index = index >> 2;		
+		uint16_t &pool_encoding = m_encodings[row][pool_index];
+		uint64_t &pool = m_pools[row][pool_index];
+		uint8_t* offsets = (uint8_t*)(m_lookup + pool_encoding);
+		uint64_t k = 4;
+		int poolCounterIndex = index & 0b11;
+		int counterBitOffset = offsets[poolCounterIndex];
+
+		
+
+		
+		uint64_t value = pool >> counterBitOffset;
+
+
+		int counterBitSize;
+		uint64_t mask;
+		if (poolCounterIndex < 3)
+			{
+				counterBitSize = offsets[poolCounterIndex + 1] - counterBitOffset;
+				mask = (((uint64_t)1 << (counterBitSize)) - 1);
+				value &= mask;
+
+				if (value < mask)
+				{
+					pool += ((uint64_t)1 << counterBitOffset);
+					continue;
+				}
+			}
+			else
+			{
+				counterBitSize = 64 - counterBitOffset;
+
+				if (value + 1 < ((uint64_t)1 << counterBitSize))
+				{
+					pool += ((uint64_t)1 << counterBitOffset);
+					continue;
+				}
+				else if (counterBitSize == 64)
+				{
+					++pool;
+					continue;
+				}
+			}
+
+				
+		if (pool_encoding != STARS_AND_BARS_64_4_POOL_FAILED)
+		{
+			uint8_t sizes_array[4] = { 0 };
+			sizes_array[0] = offsets[1];
+			for (int i = 1; i < k - 1; ++i)
+			{
+				sizes_array[i] = offsets[i + 1] - offsets[i];
+			}
+			sizes_array[k - 1] = 64 - offsets[k - 1];
+
+			if (pool & (((uint64_t)1) << 63))
+			{
+				pool_encoding = STARS_AND_BARS_64_4_POOL_FAILED;
+				continue;
+			}
+
+			++sizes_array[poolCounterIndex];
+			--sizes_array[k - 1];
+
+			uint32_t new_sizes = 0;
+			for (int i = 0; i < k - 1; ++i)
+			{
+				new_sizes |= sizes_array[i];
+				new_sizes <<= 8;
+			}
+			new_sizes |= sizes_array[k - 1];
+			pool_encoding = encode_without_auxilary_map(new_sizes);
+
+			uint64_t pool_lsb = pool & (((uint64_t)1 << (counterBitOffset + counterBitSize)) - 1);
+			uint64_t pool_msb = pool & (~(((uint64_t)1 << (counterBitOffset + counterBitSize)) - 1));
+			pool = pool_lsb | (pool_msb << 1);
+
+			++counterBitSize;
+			if (value + 1 < ((uint64_t)1 << counterBitSize))
+			{
+				pool += ((uint64_t)1 << counterBitOffset);
+			}
+			else
+			{
+				++pool;
+			}
+		}
+	}
+		
+}
+
+
+
+
 uint64_t CounterPools_64_4_0_1::chooseDeleteCounter(uint64_t pool, uint8_t* offsets, int index ){
 	if(index<3){
 		return deleteCounter(pool,offsets,index+1);

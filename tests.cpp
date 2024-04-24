@@ -96,32 +96,32 @@ using namespace std;
 // 	results_file << "N\t" << N << "\tWidth\t" << width << "\tHeight\t" << height << "\tL1 Error\t" << L1e << "\tL2 Error\t" << L2e << "\tL(inf) Error\t" << L_max << endl;
 // }
 
-void test_cms_speed_64_4_0_1(int N, int width, int height, int seed, const char* data)
-{
+// void test_cms_speed_64_4_0_1(int N, int width, int height, int seed, const char* data)
+// {
 
-	CounterPools_64_4_0_1 cp_cms(width, height, seed);
+// 	CounterPools_64_4_0_1 cp_cms(width, height, seed);
 
-	int64_t stop_loop = N * FT_SIZE;
+// 	int64_t stop_loop = N * FT_SIZE;
 
-	auto start = chrono::steady_clock::now();
-	for (int64_t i = 0; i < stop_loop; i += FT_SIZE)
-	{
-		cp_cms.increment(data + i);
-	}
-	auto end = chrono::steady_clock::now();
+// 	auto start = chrono::steady_clock::now();
+// 	for (int64_t i = 0; i < stop_loop; i += FT_SIZE)
+// 	{
+// 		cp_cms.increment(data + i);
+// 	}
+// 	auto end = chrono::steady_clock::now();
 
-	auto time = chrono::duration_cast<chrono::microseconds>(end - start).count();
-	cout << "test_cms_speed_64_4_0_1: Elapsed time in milliseconds : "
-		<< time / 1000
-		<< " ms" << endl;
+// 	auto time = chrono::duration_cast<chrono::microseconds>(end - start).count();
+// 	cout << "test_cms_speed_64_4_0_1: Elapsed time in milliseconds : "
+// 		<< time / 1000
+// 		<< " ms" << endl;
 
-	ofstream results_file;
-	string fn = "test_cms_speed_64_4_0_1_seed_";
-	fn.append(to_string(seed));
-	fn.append(".txt");
-	results_file.open(fn, ofstream::out | ofstream::app);
-	results_file << "N\t" << N << "\tWidth\t" << width << "\tHeight\t" << height << "\tTime\t" << time << endl;
-}
+// 	ofstream results_file;
+// 	string fn = "test_cms_speed_64_4_0_1_seed_";
+// 	fn.append(to_string(seed));
+// 	fn.append(".txt");
+// 	results_file.open(fn, ofstream::out | ofstream::app);
+// 	results_file << "N\t" << N << "\tWidth\t" << width << "\tHeight\t" << height << "\tTime\t" << time << endl;
+// }
 
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
@@ -251,6 +251,8 @@ void test_cms_error_on_arrival_pools_HH(int N, int width, int height, int seed, 
 
 	}
 
+
+
 	for (auto it = true_sizes.begin(); it != true_sizes.end(); it++)
 	{
 		long double error = cp_cms.query(data + ft_key_i_values[it->first]) - it->second;
@@ -357,8 +359,180 @@ void test_cms_error_on_arrival_pools_HH(int N, int width, int height, int seed, 
 
 
 
+void test_cms_error_on_arrival_pools_cus_HH(int N, int width, int height, int seed, const char* data, int pool_bit_size, int counters_per_pool, int initial_counter_size, int counter_bit_increase, int k)
+{
+	 CounterPools cp_cms(width, height, seed, pool_bit_size, counters_per_pool, initial_counter_size, counter_bit_increase, k);
 
 
+	int l=0;
+	int prev = 0;
+
+
+	unordered_map<uint64_t, uint64_t> true_sizes;
+	unordered_map<uint64_t, uint64_t> ft_key_i_values;
+
+	unordered_map<double, vector<uint64_t>> threshold_to_hh_ft_keys;
+	
+	// x axis
+	vector<double> thresholds = {0.0001, 0.000178, 0.000316, 0.000562, 0.001, 0.00178, 0.00316, 0.00562, 0.01};
+
+	for (int i = 0; i < thresholds.size(); ++i)
+	{
+		threshold_to_hh_ft_keys[thresholds[i]] = vector<uint64_t>();
+	}
+
+	int64_t stop_loop = N * FT_SIZE;
+
+	long double L1e = 0, L2e = 0, L_max = 0, RL1e = 0,  NRMSE = 0;
+
+	for (int64_t i = 0; i < stop_loop; i += 13)
+	{
+
+		uint64_t ft_key = xxh::xxhash3<64>(data + i, FT_SIZE, seed);
+
+		if (true_sizes.find(ft_key) == true_sizes.end())
+		{
+			true_sizes[ft_key] = 0;
+		}
+		ft_key_i_values[ft_key] = i;
+		true_sizes[ft_key] += 1;
+
+		// if(xxh::xxhash3<64>(data + i, FT_SIZE, 40) == 7861589472628683843){
+		// 	l=i;
+		// }
+
+		cp_cms.increment_cus(data + i);
+
+		// if(l!=0){
+			
+		// 	if(prev != cp_cms.query(data + l)){
+		// 		prev = cp_cms.query(data + l);
+		// 		cout << ft_key << " " << prev << endl;
+		// 	}
+
+			
+		// }
+		
+
+	}
+
+
+
+	for (auto it = true_sizes.begin(); it != true_sizes.end(); it++)
+	{
+		long double error = cp_cms.query(data + ft_key_i_values[it->first]) - it->second;
+		L1e += abs(error);
+		L2e += error * error;
+		RL1e += abs(error) / it->second;
+
+		
+		L_max = L_max > error ? L_max : error;
+
+		for (int i = 0; i < thresholds.size(); ++i)
+		{
+			if (it->second >= thresholds[i] * N)
+			{
+				threshold_to_hh_ft_keys[thresholds[i]].push_back(it->first);
+			}
+			else 
+			{
+				break;
+			}
+		}
+	}
+/*
+	vector<long double> HHre;
+	for (int i = 0; i < thresholds.size(); ++i)
+	{
+		long double current_hh_rl = 0;
+		for (int j = 0; j < threshold_to_hh_ft_keys[thresholds[i]].size(); ++j)
+		{
+			
+			uint64_t current_ftkey = threshold_to_hh_ft_keys[thresholds[i]][j];
+			long double current_query = cp_cms.query(data + ft_key_i_values[current_ftkey]);
+			// if(i==8){
+			// 	cout << "qury: " << current_query << "    size: " << true_sizes[current_ftkey] << endl;
+			// }
+			current_hh_rl += (long double)abs(current_query - true_sizes[current_ftkey]) / (long double)true_sizes[current_ftkey];
+
+			cout << current_ftkey << " " << (int64_t)cp_cms.query(data + i) << " " << (int64_t)true_sizes[current_ftkey] <<endl;
+
+			// if((long double)abs(current_query - true_sizes[current_ftkey]) / (long double)true_sizes[current_ftkey] > 1){
+			// 		cp_cms.query(data + ft_key_i_values[current_ftkey]);
+			// 		cout << "ERROR: " <<  (long double)abs(current_query - true_sizes[current_ftkey]) / (long double)true_sizes[current_ftkey] <<	"  cuur: "	<< current_query << " key: " << current_ftkey <<endl;
+					 		
+			// }
+
+		}
+
+		current_hh_rl /= threshold_to_hh_ft_keys[thresholds[i]].size();
+		HHre.push_back(current_hh_rl);
+	
+	}
+*/
+	
+	L1e /= N;
+	cout<< "sum " << L2e <<endl;
+	L2e /= N;
+	cout<< "Nsum " << L2e <<endl;
+	L2e = sqrt(L2e);
+	cout<< "sqrtNsum " << L2e <<endl;
+
+
+	NRMSE = L2e/N; // On araival
+	cout<< "NRMSE " << NRMSE <<endl;
+	RL1e /= N; // HH
+
+
+	ofstream results_file;
+	string fn = "cms_seed_";
+	fn.append(to_string(seed));
+	fn.append("_");
+	fn.append(to_string(pool_bit_size));
+	fn.append("_");
+	fn.append(to_string(counters_per_pool));
+	fn.append("_");
+	fn.append(to_string(initial_counter_size));
+	fn.append("_");
+	fn.append(to_string(counter_bit_increase));
+	fn.append("_k_");
+	fn.append(to_string(k));
+	fn.append(".txt");
+	results_file.open(fn, ofstream::out | ofstream::app);
+	//results_file << "N\t" << N << "\tWidth\t" << width << "\tHeight\t" << height << "\tL1 Error\t" << L1e << "\tL2 Error\t" << L2e << "\tL(inf) Error\t" << L_max << "\tLR1e Error\t" << RL1e << endl;
+	results_file << "N\t" << N << "\tWidth\t" << width << "\tHeight\t" << height << endl;
+	results_file << "OnAraival\t"<< NRMSE << "\tCrushesPer\t" << cp_cms.percent_of_crushed_pools() << endl;
+
+/*
+	ofstream results_file_hh;
+	string fn_hh = "cms_hh_seed_";
+	fn_hh.append(to_string(seed));
+	fn_hh.append("_");
+	fn_hh.append(to_string(pool_bit_size));
+	fn_hh.append("_");
+	fn_hh.append(to_string(counters_per_pool));
+	fn_hh.append("_");
+	fn_hh.append(to_string(initial_counter_size));
+	fn_hh.append("_");
+	fn_hh.append(to_string(counter_bit_increase));
+	fn_hh.append("_k_");
+	fn_hh.append(to_string(k));
+	fn_hh.append(".txt");
+	results_file_hh.open(fn_hh, ofstream::out | ofstream::app);
+
+	results_file_hh << "N\t" << N << "\tWidth\t" << width << "\tHeight\t" << height<<endl;
+	for (int i = 0; i < HHre.size(); ++i)
+	{
+		results_file_hh << "\tThreshold\t" << thresholds[i] << "\tRelError\t" << HHre[i] <<endl;
+	}
+	results_file_hh << endl;
+	*/
+}
+
+
+
+
+	
 
 
 /*

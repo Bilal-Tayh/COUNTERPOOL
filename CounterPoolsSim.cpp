@@ -1,6 +1,7 @@
 #include <sstream> 
 #include <iostream> 
 #include<stdio.h> 
+#include <math.h> 
 
 #include "CounterPoolsSim.hpp"
 
@@ -359,7 +360,7 @@ void CounterPools::increment3(const char * str)
 
 		int pool_index = index / m_counters_per_pool;
 
-	
+
 
 
 		++m_counters[i][index];
@@ -397,6 +398,111 @@ void CounterPools::increment3(const char * str)
 				// if the index is odd use the lower high*width counter, if its even use the higher counters
 				int high_low_choose = ((index%2)*m_height*m_width);
 				m_pool_fails2[(i+m_height*pool_index)+high_low_choose] +=1;
+			}
+		}
+		
+	}
+}
+
+
+void CounterPools::increment_cus(const char * str)
+{
+
+	
+
+	xxh::hash128_t hashes = xxh::xxhash3<128>(str, FT_SIZE, m_xxhash_seed);
+	xxh::hash128_t hashes1 = xxh::xxhash3<128>(str, FT_SIZE, m_xxhash_seed);
+
+	
+	int i;
+	int j;
+
+	
+	
+	uint32_t min = INT32_MAX; // if fails...
+
+	for (i = 0; i < m_height_plus_1_over_2; ++i) {
+		int index = hashes.low64 % m_width;
+		hashes.low64 /= (m_width/2);
+
+
+
+		uint32_t temp = m_counters[i][index];
+		if (min > temp)
+		{
+			min = temp;
+		}
+		
+	}
+	for (; i < m_height; ++i) {
+
+		int index = hashes.high64 % m_width;
+		hashes.high64 /= (m_width/2);
+
+		uint32_t temp = m_counters[i][index];
+		if (min > temp)
+		{
+			min = temp;
+		}
+		
+	}
+
+
+
+
+	hashes = xxh::xxhash3<128>(str, FT_SIZE, m_xxhash_seed);
+	hashes1 = xxh::xxhash3<128>(str, FT_SIZE, m_xxhash_seed);
+
+
+
+
+
+
+
+	for (i = 0; i < m_height_plus_1_over_2; ++i) {
+
+		int index = hashes.low64 % m_width;
+		hashes.low64 /= (m_width/2);
+
+		int pool_index = index / m_counters_per_pool;
+
+		
+
+		if(m_counters[i][index] == min){
+
+			++m_counters[i][index];
+			if ((m_counters[i][index] & (m_counters[i][index] - 1)) == 0)
+			{
+				if(mf_check_pool_failure(m_counters[i] + pool_index * m_counters_per_pool)){
+					--m_counters[i][index];
+					m_counters_fails[i][index] = -1;
+					// if the index is odd use the lower high*width counter, if its even use the higher counters
+					int high_low_choose = ((index%2)*m_height*m_width);
+					m_pool_fails2[(i+m_height*pool_index)+high_low_choose] +=1;
+
+				}
+			}
+		}
+			
+	}
+	for (; i < m_height; ++i) {
+		int index = hashes.high64 % m_width;
+		hashes.high64 /= (m_width/2);
+
+		int pool_index = index / m_counters_per_pool;
+
+		if(m_counters[i][index] == min){
+			++m_counters[i][index];
+			if ((m_counters[i][index] & (m_counters[i][index] - 1)) == 0)
+			{
+				//m_pool_failures[i][pool_index] = mf_check_pool_failure(m_counters[i] + pool_index * m_counters_per_pool);
+				if(mf_check_pool_failure(m_counters[i] + pool_index * m_counters_per_pool)){
+					--m_counters[i][index];
+					m_counters_fails[i][index] = -1;
+					// if the index is odd use the lower high*width counter, if its even use the higher counters
+					int high_low_choose = ((index%2)*m_height*m_width);
+					m_pool_fails2[(i+m_height*pool_index)+high_low_choose] +=1;
+				}
 			}
 		}
 		
@@ -506,6 +612,37 @@ void CounterPools::increment_cuckoo_v(xxh::hash128_t hash, uint32_t val)
 		
 	}
 }
+
+void CounterPools::countersPerPrint(){
+
+ofstream results_file;
+string fn = "countersPer.txt";
+results_file.open(fn, ofstream::out | ofstream::app);
+results_file<<"width: " <<m_width<<endl;
+int sum[33] = {0};
+
+for(int i=0; i<m_height;i++){
+	for(int j=0; j<m_width;j++){
+		if(int(m_counters[i][j] !=0)){
+			sum [ (int)log2(int(m_counters[i][j]))]++;
+		}
+		else{
+			sum[0]++;
+		}
+	}
+}
+
+for(int k=0;k<=32;k++){
+	results_file<< "k=" <<k << "->  "<<((float) sum[k])/((float)(m_height*m_width))<<endl;
+
+}
+	results_file<<" "<<endl;
+	results_file<<" "<<endl;
+}
+
+
+
+
 
 
 

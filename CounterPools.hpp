@@ -63,6 +63,7 @@ public:
 	~CounterPools_64_4_0_1();
 
 	void increment(const char * str);
+	void incrementCus(const char * str);
 	void increment2(const char * str);
 	virtual uint64_t query(const char * str);
 

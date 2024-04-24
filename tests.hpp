@@ -19,6 +19,7 @@ void test_cms_speed_64_4_0_1(int N, int width, int height, int seed, const char*
 // cms
 void test_cms_error_on_arrival_pools(int N, int width, int height, int seed, const char* data, int pool_bit_size, int counters_per_pool, int initial_counter_size, int counter_bit_increase, int k);
 void test_cms_error_on_arrival_pools_HH(int N, int width, int height, int seed, const char* data, int pool_bit_size, int counters_per_pool, int initial_counter_size, int counter_bit_increase, int k);
+void test_cms_error_on_arrival_pools_cus_HH(int N, int width, int height, int seed, const char* data, int pool_bit_size, int counters_per_pool, int initial_counter_size, int counter_bit_increase, int k);
 void test_cms_error_on_arrival_pools_etk(int N, int width, int height, int seed, const char* data, int pool_bit_size, int counters_per_pool, int initial_counter_size, int counter_bit_increase, int k);
 void test_cms_error_on_arrival_pools_HH_cuckoo(int N, int width, int height, int seed, const char* data, int pool_bit_size, int counters_per_pool, int initial_counter_size, int counter_bit_increase, int k);
 void test_cms_error_on_arrival_pools_HH_NoFail1(int N, int width, int height, int seed, const char* data, int pool_bit_size, int counters_per_pool, int initial_counter_size, int counter_bit_increase, int k);
